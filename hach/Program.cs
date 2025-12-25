@@ -2,36 +2,41 @@
 
 bool CheckFile(string PathToHash)
 {
-    return File.Exists(PathToHash) ? true : false;
+    return File.Exists(PathToHash);
 }
 
-string? GetFileHash(string PathToHash)
+string ErrorHandler(string? data)
+{
+    return
+        data == null ? "Failed to Compute the Hash." :
+        data == string.Empty ? "File not found." :
+        data;
+}
+
+string GetFileHash(string PathToHash)
 {
     try
     {
-        if (!CheckFile(PathToHash))
-            return string.Empty;
+        if (CheckFile(PathToHash))
+        {
+            using var sha256 = SHA256.Create();
+            using var stream = File.OpenRead(PathToHash);
 
-        using var sha256 = SHA256.Create();
-        using var stream = File.OpenRead(PathToHash);
+            byte[] hashBytes = sha256.ComputeHash(stream);
+            return Convert.ToHexString(hashBytes).ToLower();
+        }
 
-        byte[] hashBytes = sha256.ComputeHash(stream);
-        return Convert.ToHexString(hashBytes).ToLower();
+        return ErrorHandler(string.Empty);
     }
     catch
     {
-        return null;
+        return ErrorHandler(null);
     }
 }
 
 string CompareHashes(string PathToHash, string HashToCheck)
 {
-    string? FileHash = GetFileHash(PathToHash);
-
-    return 
-        FileHash == null ? "Failed to Compute the Hash." : 
-        FileHash == string.Empty ? "File not found." : 
-        FileHash == HashToCheck ? "MATCH." : "MISMATCH.";
+    return GetFileHash(PathToHash) == HashToCheck ? "MATCH." : "MISMATCH.";
 }
 
 string CommandHelper = "GetFileHash: Hach <PathToHash>\nCompareHashes: Hach <PathToHash> <HashToCheck>";
