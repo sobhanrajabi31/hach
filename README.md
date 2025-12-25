@@ -15,7 +15,7 @@ git clone https://github.com/sobhanrajabi31/hach.git
 ```
 
 2. Extract the zip file or Build the project.
-3. Place the `hach.exe` and `install.bat` in a **same & stable** directory and run `install.bat`.
+3. Place the `hach.exe` and `install.bat` in a **same & stable** directory and run `install.bat` **as Administrator**.
 4. Open your terminal and type `hach` to check if installation was successful.
 
 ## 💡 How to use
