@@ -16,7 +16,7 @@ string? GetFileHash(string PathToHash)
     }
 }
 
-string VerifyHash(string PathToHash, string HashToCheck)
+string CompareHashes(string PathToHash, string HashToCheck)
 {
     string? FileHash = GetFileHash(PathToHash);
 
@@ -28,5 +28,5 @@ string CommandHelper = "GetFileHash: Hach <PathToHash>\nVerifyHash: Hach <PathTo
 
 Console.WriteLine(
     args.Length == 1 ? GetFileHash(args[0]) :
-    args.Length == 2 ? VerifyHash(args[0], args[1]) :
+    args.Length == 2 ? CompareHashes(args[0], args[1]) :
     CommandHelper);
