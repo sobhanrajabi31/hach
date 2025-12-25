@@ -26,22 +26,26 @@ string GetFileHash(string PathToHash)
             return Convert.ToHexString(hashBytes).ToLower();
         }
 
-        return ErrorHandler(string.Empty);
+        return string.Empty;
     }
     catch
     {
-        return ErrorHandler(null);
+        return null;
     }
 }
 
 string CompareHashes(string PathToHash, string HashToCheck)
 {
-    return GetFileHash(PathToHash) == HashToCheck ? "MATCH." : "MISMATCH.";
+    string Hash = GetFileHash(PathToHash);
+
+    return 
+        string.IsNullOrEmpty(Hash) ? Hash : 
+        Hash == HashToCheck ? "MATCH." : "MISMATCH.";
 }
 
 string CommandHelper = "GetFileHash: Hach <PathToHash>\nCompareHashes: Hach <PathToHash> <HashToCheck>";
 
 Console.WriteLine(
-    args.Length == 1 ? GetFileHash(args[0]) :
-    args.Length == 2 ? CompareHashes(args[0], args[1]) :
+    args.Length == 1 ? ErrorHandler(GetFileHash(args[0])) :
+    args.Length == 2 ? ErrorHandler(CompareHashes(args[0], args[1])) :
     CommandHelper);
